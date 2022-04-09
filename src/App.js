@@ -1,24 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Link, Routes, Route, Navigate } from "react-router-dom";
+import { dataURL } from "../src/config";
+import Associate from "./container/Associate";
+import ManageAssociate from "./container/ManageAssociate";
+import Specialization from "./container/Specialization";
 
-function App() {
+function App(props) {
+  const { baseURL, projectName } = dataURL ? dataURL : "";
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="grid-container">
+        <header className="row">
+          <div >
+            <Link className="brand" to={`/${projectName}/associate`}>
+              AMS
+            </Link>
+          </div>
+          <div
+            style={{ display: "flex", flexWrap: "wrap", position:'absolute', left:'85%' }}
+          >
+              <div>
+              <Link to={`/${projectName}/specialization`}>Specialization</Link>
+            </div>
+            <div>
+              <Link to={`/${projectName}/associate`}>Associate</Link>
+            </div>
+          </div>
+        </header>
+        <main>
+          <Routes>
+          <Route
+              path={`/${projectName}/specialization`}
+              element={<Specialization />}
+            ></Route>
+            <Route
+              path={`/${projectName}/associate`}
+              element={<Associate />}
+            ></Route>
+             <Route
+              path={`/${projectName}/associate/add`}
+              element={<ManageAssociate />}
+            ></Route>
+             <Route
+              path={`/${projectName}/associate/edit/:id`}
+              element={<ManageAssociate />}
+            ></Route>
+            <Route
+              exact
+              path="/"
+              element={<Navigate to={`/${projectName}/associate`} />}
+            />
+          </Routes>
+        </main>
+        <footer className="row center">All right reserved</footer>
+      </div>
+    </Router>
   );
 }
 
